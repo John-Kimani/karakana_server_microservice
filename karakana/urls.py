@@ -27,6 +27,5 @@ urlpatterns = [
     path('products/', include('products.urls')),
 
     #users application
-    path('users/register/', user_views.register, name='reister'),
-    # path('users/', include('users.urls')),
+    path('users/register/', user_views.register, name='register'),
 ]

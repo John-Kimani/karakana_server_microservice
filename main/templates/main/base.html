@@ -26,7 +26,14 @@
     <!-- navbar -->
     {% include "main/navbar.html" %}
 
-    <!-- messages -->   
+    <!-- messages -->  
+     {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+     {% endif %}
 
     <!-- content -->
     {% block content %}
