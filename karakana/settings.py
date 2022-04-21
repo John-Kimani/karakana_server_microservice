@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
     'main.apps.MainConfig',
     'users.apps.UsersConfig',
+
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
