@@ -14,6 +14,9 @@ from pathlib import Path
 
 from decouple import config,Csv
 import dj_database_url
+import cloudinary
+import cloudinary.api
+import cloudinary.uploader
 
 import os
 
@@ -155,3 +158,11 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'HomePage'
 
 LOGIN_URL = 'customer-login'
+
+#cloudinary config
+cloudinary.config(
+    cloud_name=config('CLOUDINARY_CLOUD_NAME'),
+    api_key=config('CLOUDINARY_API_KEY'),
+    api_secret=config('CLOUDINARY_API_SECRET'),
+    secure=True
+)
