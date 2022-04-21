@@ -1,4 +1,22 @@
-.cart>img{
-    height: 3rem;
-    width: 3rem;
+#cart-icon{
+    display: inline-block;
+    width: 30px;
+}
+
+#cart-total{
+    display: inline-block;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 15px;
+    color: white;
+    background-color: red;
+    width: 20px;
+    height: max-content;
+}
+
+.product-navbar{
+    background-color: #323333!important;
+}
+.navbar-nav>li>a{
+    color: white;
 }
