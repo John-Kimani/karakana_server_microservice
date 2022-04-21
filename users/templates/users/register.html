@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container container-fluid mt-3">
+        <form action="" method="POST">
+            {% csrf_token%}
+            <fieldset class="form-group">
+                <legend class="mb-4 border-bottom">Register Today</legend>
+                {{ form }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-warning" type="submit">Sign Up</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Already have an account? <a href="#" class="ml-3">Login</a>
+            </small>
+        </div>
+    </div>
+{% endblock %}
