@@ -20,3 +20,14 @@
 .navbar-nav>li>a{
     color: white;
 }
+
+.box-element{
+    box-shadow: hsl(0, 0%, 80%) 0 0 20px;
+    background-color: aliceblue;
+    border-radius: 5px;
+    padding: 15px;
+}
+.product{
+    border-radius: 0 0 4px 4px;
+    margin: 3px;
+}
