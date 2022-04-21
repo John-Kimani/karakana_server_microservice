@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from .forms import CustomerRegistrationform
+from django.contrib.auth.decorators import login_required
 
 def customer_register(request):
     '''
@@ -18,6 +19,7 @@ def customer_register(request):
     return render(request, 'users/register.html', {"form":form})
 
 
+@login_required()
 def customer_profile(request):
     '''
     Customer profile view funtion
