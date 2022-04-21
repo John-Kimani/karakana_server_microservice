@@ -17,3 +17,11 @@ def customer_register(request):
         form = CustomerRegistrationform()
     return render(request, 'users/register.html', {"form":form})
 
+
+def customer_profile(request):
+    '''
+    Customer profile view funtion
+    '''
+
+    return render(request, 'users/customer-profile.html')
+

@@ -31,4 +31,5 @@ urlpatterns = [
     path('users/register/', user_views.customer_register, name='customer-register'),
     path('users/login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='customer-login'),
     path('users/logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='customer-logout'),
+    path('users/customer-profile/', user_views.customer_profile, name='customer-profile'),
 ]
