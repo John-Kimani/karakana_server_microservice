@@ -2,13 +2,15 @@
 
 {% load static %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
     <div class="container container-fluid mt-3">
         <form action="" method="POST">
             {% csrf_token%}
             <fieldset class="form-group">
-                <legend class="mb-4 border-bottom">Register Today</legend>
-                {{ form }}
+                <legend class="mb-4 border-bottom">Register as our customer</legend>
+                {{ form|crispy }}
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-warning" type="submit">Sign Up</button>

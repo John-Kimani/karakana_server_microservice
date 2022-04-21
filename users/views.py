@@ -1,19 +1,19 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from .forms import CustomerRegistrationform
 
-def register(request):
+def customer_register(request):
     '''
-    Register users view function
+    Register customer view function
     '''
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomerRegistrationform(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
-            print(form)
+            form.save()
             messages.success(request, f'Account created for {username}!')
             return redirect('HomePage')
     else:
-        form = UserCreationForm()
+        form = CustomerRegistrationform()
     return render(request, 'users/register.html', {"form":form})
 
