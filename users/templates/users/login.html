@@ -9,16 +9,16 @@
         <form action="" method="POST">
             {% csrf_token%}
             <fieldset class="form-group">
-                <legend class="mb-4 border-bottom">Register as our customer</legend>
+                <legend class="mb-4 border-bottom">Log In</legend>
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-warning" type="submit">Sign Up</button>
+                <button class="btn btn-outline-warning" type="submit">Log In</button>
             </div>
         </form>
         <div class="border-top pt-3">
             <small class="text-muted">
-                Already have an account? <a href="{% url 'customer-login' %}" class="ml-3">Login</a>
+                Need an account? <a href="{% url 'customer-register' %}" class="ml-3">Register</a>
             </small>
         </div>
     </div>

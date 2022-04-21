@@ -11,8 +11,8 @@ def customer_register(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             form.save()
-            messages.success(request, f'Account created for {username}!')
-            return redirect('HomePage')
+            messages.success(request, f'Your account has been created  you can now login')
+            return redirect('customer-login')
     else:
         form = CustomerRegistrationform()
     return render(request, 'users/register.html', {"form":form})
