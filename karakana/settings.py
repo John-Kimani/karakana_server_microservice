@@ -46,10 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'products.apps.ProductsConfig',
-    'main.apps.MainConfig',
-    'users.apps.UsersConfig',
-
     'bootstrap4',
     'crispy_forms',
 ]
@@ -88,17 +84,35 @@ WSGI_APPLICATION = 'karakana.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-MODE=config("MODE", default="dev")
+MODE=config("MODE", default="development")
 DEBUG = config('DEBUG', default=False, cast=bool)
-if config('MODE')=="dev":
+if config('MODE')=="development":
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': config('DEV_DB_NAME'),
+            'USER': config('DEV_DB_USER'),
+            'PASSWORD': config('DEV_DB_PASSWORD'),
+        }
+    }
+elif config('MODE') == 'production':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': config('DB_NAME'),
             'USER': config('DB_USER'),
             'PASSWORD': config('DB_PASSWORD'),
+            'HOST': config('DB_HOST'),
+            'PORT': config('DB_PORT')
         }
     }
+elif config('MODE') == 'lite':
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 else: 
     DATABASES = {
        'default': dj_database_url.config(
