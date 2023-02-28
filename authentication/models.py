@@ -23,6 +23,8 @@ class UserManager(BaseUserManager):
 
         user.save()
 
+        return user
+
     def create_superuser(self, username, email, password=None):
         '''
             Func: Overwrite user creation
