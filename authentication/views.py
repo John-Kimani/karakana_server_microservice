@@ -172,4 +172,30 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
 
 class PasswordTokenCheckAPIView(generics.GenericAPIView):
     def get(self, request, uidb64, token):
-        pass
+        try:
+            id = smart_str(urlsafe_base64_decode(uidb64))
+
+            user = User.objects.get(id=id)
+
+                           # Validate that the token has not been used yet 
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                response = {
+                    'error': 'Token is not valid, please request a new one'
+                }
+                return Response(data=response, status=status.HTTP_401_UNAUTHORIZED)
+
+            response = {
+                'success': True,
+                'message': 'Credentials valid',
+                'uidb64': uidb64,
+                'token': token
+            }
+
+            return Response(data=response, status=status.HTTP_200_OK)
+        # tempered token
+        except DjangoUnicodeDecodeError:
+            if not PasswordResetTokenGenerator().check_token(user):
+                response = {
+                    'error': 'Token is not valid, please request a new one'
+                }
+                return Response(data=response, status=status.HTTP_401_UNAUTHORIZED)
