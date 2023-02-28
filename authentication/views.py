@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, status, views
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer, RequestPasswordRequestSerializer
+from .serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer, RequestPasswordRequestSerializer, SetNewPasswordSerializer
 from .models import User
 from .utils import Util
 from django.contrib.sites.shortcuts import get_current_site
@@ -171,7 +171,11 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
 
 
 class PasswordTokenCheckAPIView(generics.GenericAPIView):
+
+    serializer_class = SetNewPasswordSerializer
+
     def get(self, request, uidb64, token):
+
         try:
             id = smart_str(urlsafe_base64_decode(uidb64))
 
@@ -199,3 +203,22 @@ class PasswordTokenCheckAPIView(generics.GenericAPIView):
                     'error': 'Token is not valid, please request a new one'
                 }
                 return Response(data=response, status=status.HTTP_401_UNAUTHORIZED)
+            
+
+class SetNewPasswordAPIView(generics.GenericAPIView):
+
+    serializer_class = SetNewPasswordSerializer
+
+    def patch(self, request):
+
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+
+            response = {
+                'success': True,
+                'message': 'Password reset sucess'
+            }
+            return Response(data=response, status=status.HTTP_202_ACCEPTED)
+        else:
+            print('Not valid')
