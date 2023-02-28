@@ -6,6 +6,7 @@ from .serializers import RegisterSerializer
 from .models import User
 from .utils import Util
 from django.contrib.sites.shortcuts import get_current_site
+from django.urls import reverse
 
 class RegisterView(generics.GenericAPIView):
 
@@ -24,15 +25,25 @@ class RegisterView(generics.GenericAPIView):
 
             user = User.objects.get(email=user_data['email'])
 
-            token = RefreshToken.for_user(user)
+            # Get users access token
+            token = RefreshToken.for_user(user).access_token
+            
+            # Get current site domain
+            current_site = get_current_site(request).domain
 
-            current_site = get_current_site(request)
+            # Pass to the correct system endpoint
+            relativeLink = reverse('email-verify')
 
-            relativeLink=''
+            # Redirected site link
+            absurl = 'http://'+current_site+relativeLink+'?token='+str(token)
+            
+            email_body = f'Hello {user.username} use the link below to verify your email address to activate your account \
+                {absurl}'
 
             data = {
-                'domain': current_site.domain,
-
+                'email_body': email_body,
+                'to_email': user.email,
+                'email_subject': 'Verify your email address',
             }
 
             ## Marked as a static method to allow direct injection
