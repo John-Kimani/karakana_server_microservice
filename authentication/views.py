@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, status, views
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer
+from .serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer, RequestPasswordRequestSerializer
 from .models import User
 from .utils import Util
 from django.contrib.sites.shortcuts import get_current_site
@@ -119,3 +119,21 @@ class LoginAPIView(generics.GenericAPIView):
             }
 
             return Response(data=response, status=status.HTTP_200_OK)
+
+
+class RequestPasswordResetEmail(generics.GenericAPIView):
+
+    serializer_class = RequestPasswordRequestSerializer
+
+    def post(self, request):
+        data = {
+            'request': request, 
+            'data' : request.data 
+            }
+        serializer = self.serializer_class(data=data)
+        serializer.is_valid(raise_exception=True)
+
+
+class PasswordTokenCheckAPIView(generics.GenericAPIView):
+    def get(self, request, uidb64, token):
+        pass
