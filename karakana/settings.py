@@ -46,12 +46,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'products.apps.ProductsConfig',
-    'main.apps.MainConfig',
-    'users.apps.UsersConfig',
+    ### Installed apps
+    'authentication.apps.AuthenticationConfig',
 
-    'bootstrap4',
-    'crispy_forms',
+    ## third-party apps
+    'rest_framework',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -65,6 +65,24 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'karakana.urls'
+
+AUTH_USER_MODEL = 'authentication.User'
+
+REST_FRAMEWORK = {
+    'NON_FIELD_ERRORS_KEY': 'error',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+## Email configuration
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST=config('EMAIL_HOST', default='smtp.gmail.com')
+EMAIL_FROM=config('EMAIL_FROM')
+EMAIL_HOST_USER=config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')
+EMAIL_PORT=config('EMAIL_PORT', default=587)
+EMAIL_USE_TLS=True
 
 TEMPLATES = [
     {
@@ -88,17 +106,35 @@ WSGI_APPLICATION = 'karakana.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-MODE=config("MODE", default="dev")
+MODE=config("MODE", default="development")
 DEBUG = config('DEBUG', default=False, cast=bool)
-if config('MODE')=="dev":
+if config('MODE')=="development":
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': config('DEV_DB_NAME'),
+            'USER': config('DEV_DB_USER'),
+            'PASSWORD': config('DEV_DB_PASSWORD'),
+        }
+    }
+elif config('MODE') == 'production':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': config('DB_NAME'),
             'USER': config('DB_USER'),
             'PASSWORD': config('DB_PASSWORD'),
+            'HOST': config('DB_HOST'),
+            'PORT': config('DB_PORT')
         }
     }
+elif config('MODE') == 'lite':
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 else: 
     DATABASES = {
        'default': dj_database_url.config(
@@ -156,12 +192,6 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
-LOGIN_REDIRECT_URL = 'HomePage'
-
-LOGIN_URL = 'customer-login'
 
 #cloudinary config
 cloudinary.config(
