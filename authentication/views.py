@@ -118,7 +118,7 @@ class LoginAPIView(generics.GenericAPIView):
         if serializer.is_valid(raise_exception=True):
 
             response = {
-                'message': 'Login Sucess',
+                'message': 'Login Success',
                 'user': serializer.data
             }
 
